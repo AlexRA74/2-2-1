@@ -1,6 +1,7 @@
 package hiber.service;
 
 import hiber.dao.UserDao;
+import hiber.model.Car;
 import hiber.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,16 @@ public class UserServiceImp implements UserService {
 
    @Transactional
    @Override
-   public void add(User user) {
-      userDao.add(user);
+   public void add(User user, Car car) {
+      userDao.add(user, car);
    }
+
+   @Override
+   public List<User> userCar(String model, String series) {
+      System.out.println("метод в USERSERVICEIMP выполнен");
+      return userDao.userCar(model,series);
+   }
+
 
    @Transactional(readOnly = true)
    @Override
