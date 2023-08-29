@@ -17,21 +17,28 @@ public class UserServiceImp implements UserService {
 
    @Transactional
    @Override
+   public void add(User user) {
+      userDao.add(user);
+   }
+
+   @Override
    public void add(User user, Car car) {
-      userDao.add(user, car);
+
    }
 
    @Override
    public List<User> userCar(String model, String series) {
-      System.out.println("метод в USERSERVICEIMP выполнен");
-      return userDao.userCar(model,series);
+      return null;
    }
-
 
    @Transactional(readOnly = true)
    @Override
    public List<User> listUsers() {
       return userDao.listUsers();
    }
-
+   @Transactional
+   @Override
+   public User getOwner(String model, int series) {
+      return userDao.getOwner(model, series);
+   }
 }

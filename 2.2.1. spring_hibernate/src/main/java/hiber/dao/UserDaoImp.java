@@ -1,13 +1,13 @@
 package hiber.dao;
 
-import hiber.model.Car;
 import hiber.model.User;
-import org.hibernate.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -17,21 +17,8 @@ public class UserDaoImp implements UserDao {
    private SessionFactory sessionFactory;
 
    @Override
-   public void add(User user, Car car) {
+   public void add(User user) {
       sessionFactory.getCurrentSession().save(user);
-      user.setUserCar(car);
-   }
-
-   @Override
-   @Transactional
-   public List<User> userCar(String model, String series) {
-
-
-      String HQL="FROM User user WHERE user.userCar.model=:model and user.userCar.series=:series";
-      System.out.println("метод в DAO выполнен");
-      return sessionFactory.getCurrentSession().createQuery(HQL).setParameter("model", model).setParameter("series", series).getResultList();
-
-
    }
 
    @Override
@@ -39,6 +26,20 @@ public class UserDaoImp implements UserDao {
    public List<User> listUsers() {
       TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("from User");
       return query.getResultList();
+   }
+
+   @Override
+   public User getOwner(String model, int series) {
+      String hql = "SELECT car.owner FROM Car car WHERE car.series = :series AND car.model = :model";
+      Session session = sessionFactory.getCurrentSession();
+      Query query = session.createQuery(hql);
+      query.setParameter("series", series);
+      query.setParameter("model", model);
+      List<User> users = query.getResultList();
+      if (!users.isEmpty() && users.size() == 1) {
+         return users.get(0);
+      }
+      return null;
    }
 
 }
