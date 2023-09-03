@@ -1,6 +1,13 @@
 package hiber.model;
 
-import javax.persistence.*;
+
+import org.hibernate.annotations.Table;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name = "cars")

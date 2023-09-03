@@ -29,17 +29,17 @@ public class UserDaoImp implements UserDao {
    }
 
    @Override
-   public User getOwner(String model, int series) {
-      String hql = "SELECT car.owner FROM Car car WHERE car.series = :series AND car.model = :model";
-      Session session = sessionFactory.getCurrentSession();
-      Query query = session.createQuery(hql);
-      query.setParameter("series", series);
-      query.setParameter("model", model);
-      List<User> users = query.getResultList();
-      if (!users.isEmpty() && users.size() == 1) {
-         return users.get(0);
+   public void getUserByModelAndSeries(String model, int series) {
+      Session session = sessionFactory.openSession();
+      try (session) {
+         String HQL = "from Car c left join fetch c.user where c.model=:model and c.series=:series";
+         Car car = session.createQuery(HQL, Car.class)
+                 .setParameter("model", model).setParameter("series", series).getSingleResult();
+         User user = car.getUser();
+         System.out.println(user);
+      } catch (RuntimeException e) {
+         System.out.println("Warning! User with car " + model + " " + series + " is not found");
       }
-      return null;
    }
 
 }
