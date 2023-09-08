@@ -1,13 +1,8 @@
 package hiber.model;
 
 
-import org.hibernate.annotations.Table;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cars")
@@ -30,7 +25,9 @@ public class Car {
     @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
     private User owner;
 
-    public Car(){}
+    public Car(){
+
+    }
 
     public Car (String model, int series) {
         this.model = model;
@@ -38,23 +35,28 @@ public class Car {
     }
 
     public String getModel() {
+
         return model;
     }
 
     public void setModel(String model) {
+
         this.model = model;
     }
 
     public int getSeries() {
+
         return series;
     }
 
     public void setSeries(int series) {
+
         this.series = series;
     }
 
     @Override
     public String toString () {
+
         return this.model + ", " + this.series;
     }
 }
