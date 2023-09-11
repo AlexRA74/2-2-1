@@ -1,5 +1,6 @@
 package hiber.dao;
 
+import hiber.model.Car;
 import hiber.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,6 +18,11 @@ public class UserDaoImp implements UserDao {
       this.sessionFactory = sessionFactory;
    }
 
+
+   @Override
+   public void add(User user) {
+
+   }
 
    @Override
    @SuppressWarnings("unchecked")
